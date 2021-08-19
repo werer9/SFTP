@@ -1,4 +1,4 @@
-package nz.murch.sftp;
+package nz.murch.sftp.server;
 
 public enum SFTPResponses {
     LOGIN("!"),

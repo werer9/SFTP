@@ -1,4 +1,4 @@
-package nz.murch.sftp;
+package nz.murch.sftp.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -37,7 +37,6 @@ public class Server {
         Server server = new Server();
         try {
             server.waitForRequest();
-            server.serverSocket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

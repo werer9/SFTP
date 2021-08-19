@@ -1,4 +1,4 @@
-package nz.murch.sftp;
+package nz.murch.sftp.server;
 
 public class User extends SFTPCommand {
 
@@ -21,7 +21,7 @@ public class User extends SFTPCommand {
             response = SFTPResponses.ERR;
         }
         String user = args[0];
-        this.login = SFTPResponses.LOGIN + user + " logged in\0";
+        this.login = SFTPResponses.LOGIN + "" + user + " logged in\0";
 
         return response;
     }

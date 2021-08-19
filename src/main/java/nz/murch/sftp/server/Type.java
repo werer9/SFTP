@@ -1,9 +1,9 @@
-package nz.murch.sftp;
+package nz.murch.sftp.server;
 
 public class Type extends SFTPCommand {
 
     public Type() {
-        this.name = "USER";
+        this.name = "TYPE";
         this.success = SFTPResponses.SUCCESS + "Using { Ascii | Binary | Continuous } mode\0";
         this.error = SFTPResponses.ERR + "Type not valid\0";
     }

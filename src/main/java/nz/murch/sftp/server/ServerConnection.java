@@ -1,4 +1,4 @@
-package nz.murch.sftp;
+package nz.murch.sftp.server;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -50,20 +50,33 @@ public class ServerConnection implements Runnable {
 
     @Override
     public void run() {
+        try {
+            this.output.writeBytes("+localhost Welcome :)\0");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         while (keepRunning) {
             switch (this.state) {
-                case LOGIN ->
+                case LOGIN:
                         // wait for a login response
-                        this.login();
-                case NORMAL ->
+                        try {
+                            this.login();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                case NORMAL:
                         // wait for any command
                         this.normal();
-                case LOAD ->
+                        break;
+                case LOAD:
                         // if command requires more info, wait for that here
                         this.load();
-                case DISCONNECT ->
+                        break;
+                case DISCONNECT:
                         // close thread
                         this.disconnect();
+                        break;
             }
         }
     }
@@ -75,16 +88,19 @@ public class ServerConnection implements Runnable {
         this.keepRunning = false;
     }
 
-    private void login() {
+    private void login() throws IOException {
         String command = "";
-        try {
-            command = this.input.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        command = this.input.readLine();
 
         SFTPCommand cmd = interpretCommand(command);
+        assert cmd != null;
+        SFTPResponses response = cmd.executeCommand(getCommandArguments(command));
 
+        output.writeBytes(cmd.getResponseData());
+
+        if (response == SFTPResponses.LOGIN) {
+            this.loginReceived = true;
+        }
 
         if (this.loginReceived) {
             this.state = States.NORMAL;
@@ -107,7 +123,7 @@ public class ServerConnection implements Runnable {
         }
     }
 
-    private SFTPCommand interpretCommand(String command) {
+    public SFTPCommand interpretCommand(String command) {
         command = command.substring(0, 4);
         for (SFTPCommand cmd : this.commands) {
             if (cmd.toString().equals(command)) {
@@ -116,5 +132,10 @@ public class ServerConnection implements Runnable {
         }
 
         return null;
+    }
+
+    public static String[] getCommandArguments(String command) {
+        String[] fullCommand = command.split(" ");
+        return Arrays.copyOfRange(fullCommand, 1, fullCommand.length);
     }
  }
