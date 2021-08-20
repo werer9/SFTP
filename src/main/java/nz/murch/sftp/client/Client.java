@@ -48,6 +48,10 @@ public class Client {
             System.out.println(client.request("ACCT account2"));
             System.out.println(client.request("PASS abc123"));
             System.out.println(client.request("PASS password"));
+            System.out.println(client.request("TYPE A"));
+            System.out.println(client.request("TYPE C"));
+            System.out.println(client.request("TYPE B"));
+
             client.closeSocket();
         } catch (IOException e) {
             e.printStackTrace();

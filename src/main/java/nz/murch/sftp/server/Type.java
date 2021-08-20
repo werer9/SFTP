@@ -14,14 +14,18 @@ public class Type extends SFTPCommand {
             case "A":
                 this.success = SFTPResponses.SUCCESS + "Using Ascii mode";
                 this.response = SFTPResponses.SUCCESS;
+                break;
             case "B":
                 this.success = SFTPResponses.SUCCESS + "Using Binary mode";
                 this.response = SFTPResponses.SUCCESS;
+                break;
             case "C":
                 this.success = SFTPResponses.SUCCESS + "Using Continuous mode";
                 this.response = SFTPResponses.SUCCESS;
+                break;
             default:
                 this.response = SFTPResponses.ERR;
+                break;
 
         }
 

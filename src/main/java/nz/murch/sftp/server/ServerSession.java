@@ -17,6 +17,12 @@ public class ServerSession extends Thread {
         LOGOUT,
     }
 
+    private enum Types {
+        ASCII,
+        BINARY,
+        CONTINUOUS
+    }
+
     private final Vector<SFTPCommand> commands = new Vector<>(Arrays.asList(
             new User(),
             new Account(),
@@ -36,9 +42,12 @@ public class ServerSession extends Thread {
     private SFTPCommand previousCommand;
     private String[] arguments;
 
+    private Types streamType;
+
     public ServerSession(Socket socket, String hostname) throws IOException {
         this.connection = new ServerConnection(socket);
         this.state = States.WELCOME;
+        this.streamType = Types.BINARY;
 
         this.hostname = hostname;
         this.username = "";
@@ -62,6 +71,9 @@ public class ServerSession extends Thread {
                     case PASSWORD:
                         this.password();
                         break;
+                    case COMMAND:
+                        this.command();
+                        break;
                 }
             } catch (IOException e) {
                 this.connection.closeConnection();
@@ -81,8 +93,7 @@ public class ServerSession extends Thread {
         assert this.presentCommand != null;
         if (this.presentCommand.toString().equals("USER") && this.arguments[0] != null) {
             this.username = this.arguments[0];
-            SFTPResponses response = this.presentCommand.executeCommand(this.arguments);
-            this.connection.writeToClient(this.presentCommand.getResponseData());
+            SFTPResponses response = this.writeToClient();
             if (response == SFTPResponses.SUCCESS) {
                 this.state = States.ACCOUNT;
             } else if (response == SFTPResponses.LOGIN) {
@@ -98,8 +109,7 @@ public class ServerSession extends Thread {
         assert this.presentCommand != null;
         if (this.presentCommand.toString().equals("ACCT") && this.arguments[0] != null) {
             this.account = this.arguments[0];
-            SFTPResponses response = this.presentCommand.executeCommand(this.arguments);
-            this.connection.writeToClient(this.presentCommand.getResponseData());
+            SFTPResponses response = this.writeToClient();
             if (response == SFTPResponses.SUCCESS) {
                 this.state = States.PASSWORD;
             } else if (response == SFTPResponses.LOGIN) {
@@ -114,8 +124,7 @@ public class ServerSession extends Thread {
 
         assert this.presentCommand != null;
         if (this.presentCommand.toString().equals("PASS") && this.arguments[0] != null) {
-            SFTPResponses response = this.presentCommand.executeCommand(this.arguments);
-            this.connection.writeToClient(this.presentCommand.getResponseData());
+            SFTPResponses response = this.writeToClient();
             if (response == SFTPResponses.SUCCESS) {
                 this.state = States.ACCOUNT;
             } else if (response == SFTPResponses.LOGIN) {
@@ -128,6 +137,19 @@ public class ServerSession extends Thread {
     private void command() throws IOException {
         this.loadInputData();
 
+        switch (this.presentCommand.toString()) {
+            case "TYPE":
+                if (this.arguments[0] != null) {
+                    switch (this.arguments[0]) {
+                        case "A" -> this.streamType = Types.ASCII;
+                        case "B" -> this.streamType = Types.BINARY;
+                        case "C" -> this.streamType = Types.CONTINUOUS;
+                    }
+                }
+                break;
+        }
+
+        this.writeToClient();
     }
 
     private void loadInputData() throws IOException {
@@ -135,6 +157,12 @@ public class ServerSession extends Thread {
         this.previousCommand = this.presentCommand;
         this.presentCommand = interpretCommand(input);
         this.arguments = getCommandArguments(input);
+    }
+
+    private SFTPResponses writeToClient() throws IOException {
+        SFTPResponses response = this.presentCommand.executeCommand(this.arguments);
+        this.connection.writeToClient(this.presentCommand.getResponseData());
+        return response;
     }
 
     private SFTPCommand interpretCommand(String command) {
