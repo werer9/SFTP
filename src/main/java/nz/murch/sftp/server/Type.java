@@ -11,22 +11,19 @@ public class Type extends SFTPCommand {
     @Override
     public SFTPResponses executeCommand(String[] args) {
         switch (args[0]) {
-            case "A":
+            case "A" -> {
                 this.success = SFTPResponses.SUCCESS + "Using Ascii mode";
                 this.response = SFTPResponses.SUCCESS;
-                break;
-            case "B":
+            }
+            case "B" -> {
                 this.success = SFTPResponses.SUCCESS + "Using Binary mode";
                 this.response = SFTPResponses.SUCCESS;
-                break;
-            case "C":
+            }
+            case "C" -> {
                 this.success = SFTPResponses.SUCCESS + "Using Continuous mode";
                 this.response = SFTPResponses.SUCCESS;
-                break;
-            default:
-                this.response = SFTPResponses.ERR;
-                break;
-
+            }
+            default -> this.response = SFTPResponses.ERR;
         }
 
         return this.response;

@@ -17,7 +17,7 @@ public class ServerConnection {
     }
 
     public void writeToClient(String data) throws IOException {
-        this.toClient.writeUTF(data + '\0');
+        this.toClient.writeUTF(data + " \0");
         this.toClient.flush();
     }
 

@@ -27,7 +27,8 @@ public class ServerSession extends Thread {
             new User(),
             new Account(),
             new Password(),
-            new Type()
+            new Type(),
+            new List()
     ));
 
     private final ServerConnection connection;
@@ -36,6 +37,7 @@ public class ServerSession extends Thread {
     private final String hostname;
     private String username;
     private String account;
+    private String cwd;
 
     private String input;
     private SFTPCommand presentCommand;
@@ -48,6 +50,7 @@ public class ServerSession extends Thread {
         this.connection = new ServerConnection(socket);
         this.state = States.WELCOME;
         this.streamType = Types.BINARY;
+        this.cwd = System.getProperty("user.dir");
 
         this.hostname = hostname;
         this.username = "";
@@ -147,6 +150,10 @@ public class ServerSession extends Thread {
                     }
                 }
                 break;
+            case "LIST":
+                if (this.arguments[1].equals("./")) {
+                    this.arguments[1] = this.cwd;
+                }
         }
 
         this.writeToClient();
