@@ -25,7 +25,8 @@ public class Client {
     }
 
     public String request(String requestData) throws IOException {
-        this.output.writeUTF(requestData);
+        this.output.writeUTF(requestData + " \0");
+        this.output.flush();
         String response = this.input.readUTF();
 
         return response;
@@ -42,7 +43,11 @@ public class Client {
     public static void main(String[] args) {
         try {
             Client client = new Client();
-            System.out.println(client.request("USER caelan\0"));
+            System.out.println(client.request("USER caelan"));
+            System.out.println(client.request("USER user1"));
+            System.out.println(client.request("ACCT account2"));
+            System.out.println(client.request("PASS abc123"));
+            System.out.println(client.request("PASS password"));
             client.closeSocket();
         } catch (IOException e) {
             e.printStackTrace();

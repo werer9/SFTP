@@ -5,9 +5,10 @@ import java.io.*;
 import java.net.Socket;
 
 public class ServerConnection {
-    private Socket connection;
-    private DataInputStream fromClient;
-    private DataOutputStream toClient;
+    private final Socket connection;
+    private final DataInputStream fromClient;
+    private final DataOutputStream toClient;
+
 
     public ServerConnection(Socket connection) throws IOException {
         this.connection = connection;
@@ -17,10 +18,11 @@ public class ServerConnection {
 
     public void writeToClient(String data) throws IOException {
         this.toClient.writeUTF(data + '\0');
+        this.toClient.flush();
     }
 
     public String readFromClient() throws IOException {
-        return this.fromClient.readLine();
+        return this.fromClient.readUTF();
     }
 
     public void closeConnection()  {
