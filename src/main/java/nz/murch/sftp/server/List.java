@@ -32,7 +32,6 @@ public class List extends SFTPCommand {
                 for (Path file : fileList) {
                     this.success = String.format("%s%s\r\n", this.success, file.getFileName());
                 }
-                this.success += "\r\n";
                 this.response = SFTPResponses.SUCCESS;
             } else if (args[0].equals("V")) {
                 this.success = SFTPResponses.SUCCESS + directory.toString() + "\r\n";
@@ -45,7 +44,6 @@ public class List extends SFTPCommand {
                         e.printStackTrace();
                     }
                 }
-                this.success += "\r\n";
                 this.response = SFTPResponses.SUCCESS;
             } else {
                 this.error = SFTPResponses.ERR + "List argument invalid";
