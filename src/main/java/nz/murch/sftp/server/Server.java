@@ -1,44 +1,27 @@
 package nz.murch.sftp.server;
 
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
 
-    private final int MAX_THREADS = 20;
-
-    private String hostname;
-    private int port;
-
-    private ServerSocket serverSocket;
-    private Socket clientSocket;
-
-    public Server() {
-        this("localhost", 8080);
-    }
-
-    public Server(String hostname, int port) {
-        this.hostname = hostname;
-        this.port = port;
-    }
-
-    @SuppressWarnings("InfiniteLoopStatement")
-    private void waitForRequest() throws IOException {
-        serverSocket = new ServerSocket(port);
+    public static void main(String[] args) throws IOException {
+        Socket socket = new Socket();
+        ServerSocket serverSocket = new ServerSocket(8080);
+        System.out.println("Server open");
         while (true) {
-            clientSocket = serverSocket.accept();
-            ServerConnection serverConnection = new ServerConnection(clientSocket);
-            serverConnection.run();
+            try {
+                socket = serverSocket.accept();
+                Thread serverSession = new ServerSession(socket, "localhost");
+                System.out.println("Connection established with: " + socket.getInetAddress() + ":" + socket.getPort());
+                serverSession.start();
+            } catch (IOException e) {
+                socket.close();
+                e.printStackTrace();
+            }
         }
-    }
 
-    public static void main(String[] args) {
-        Server server = new Server();
-        try {
-            server.waitForRequest();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

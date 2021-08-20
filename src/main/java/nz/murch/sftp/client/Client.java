@@ -2,16 +2,13 @@ package nz.murch.sftp.client;
 
 import nz.murch.sftp.server.Server;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.Socket;
 import java.nio.CharBuffer;
 
 public class Client {
 
-    private BufferedReader input;
+    private DataInputStream input;
     private DataOutputStream output;
 
     private Socket clientSocket;
@@ -23,13 +20,13 @@ public class Client {
     public Client(String host, int port) throws IOException {
         this.clientSocket = new Socket(host, port);
         this.output = new DataOutputStream(clientSocket.getOutputStream());
-        this.input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        System.out.println(this.input.readLine());
+        this.input = new DataInputStream(clientSocket.getInputStream());
+        System.out.println(this.input.readUTF());
     }
 
     public String request(String requestData) throws IOException {
-        this.output.writeBytes(requestData);
-        String response = this.input.readLine();
+        this.output.writeUTF(requestData);
+        String response = this.input.readUTF();
 
         return response;
     }
