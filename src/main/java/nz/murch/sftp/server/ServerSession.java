@@ -2,6 +2,8 @@ package nz.murch.sftp.server;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -40,7 +42,7 @@ public class ServerSession extends Thread {
     private final String hostname;
     private String username;
     private String account;
-    private String cwd;
+    private Path cwd;
 
     private String input;
     private SFTPCommand presentCommand;
@@ -53,7 +55,7 @@ public class ServerSession extends Thread {
         this.connection = new ServerConnection(socket);
         this.state = States.WELCOME;
         this.streamType = Types.BINARY;
-        this.cwd = System.getProperty("user.dir");
+        this.cwd = Paths.get("");
 
         this.hostname = hostname;
         this.username = "";
@@ -155,16 +157,22 @@ public class ServerSession extends Thread {
                 break;
             case "LIST":
                 if (this.arguments[1].equals("./") || this.arguments[1].equals("\0")) {
-                    this.arguments[1] = this.cwd;
+                    this.arguments[1] = this.cwd.toString();
                 }
                 break;
             case "CDIR":
-                if (this.arguments[0].equals("../") || this.arguments[0].equals("..")) {
-                    Path workingPath = Paths.get(this.cwd);
-                    workingPath = workingPath.getParent();
-                    this.cwd = workingPath.toString();
-                    this.arguments[1] = this.cwd;
+                if (this.arguments.length >= 1) {
+                    if (Files.isDirectory(this.cwd.resolve(this.arguments[0]))) {
+                        this.cwd = this.cwd.resolve(this.arguments[0]).toAbsolutePath();
+                        this.arguments[0] = this.cwd.toString();
+                        System.setProperty("user.dir", this.cwd.toString());
+                    } else {
+                        this.presentCommand.setError("Specified path is not a directory");
+                    }
+                } else {
+                    this.presentCommand.setError("No path specified");
                 }
+                break;
         }
 
         this.writeToClient();

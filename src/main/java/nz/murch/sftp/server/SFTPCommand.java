@@ -1,9 +1,6 @@
 package nz.murch.sftp.server;
 
 public abstract class SFTPCommand {
-//    TYPE,
-//    LIST,
-//    CDIR,
 //    KILL,
 //    NAME,
 //    DONE,
@@ -15,6 +12,11 @@ public abstract class SFTPCommand {
     protected String login;
     protected SFTPResponses response;
 
+    protected boolean isError;
+
+    public SFTPCommand() {
+        this.isError = false;
+    }
 
     public String toString() {
         return this.name;
@@ -29,4 +31,12 @@ public abstract class SFTPCommand {
             default -> this.error;
         };
     }
+
+    public void setError(String msg) {
+        this.error = SFTPResponses.ERR + msg;
+        this.response = SFTPResponses.ERR;
+        this.isError = true;
+    }
+
+
 }

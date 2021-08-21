@@ -54,7 +54,12 @@ public class Client {
             System.out.println(client.request("LIST F ./"));
             System.out.println(client.request("LIST V ./"));
             System.out.println(client.request("LIST F"));
-            System.out.println(client.request("CDIR ../"));
+            System.out.println(client.request("CDIR src"));
+            System.out.println(client.request("LIST F"));
+            System.out.println(client.request("CDIR .."));
+            System.out.println(client.request("LIST F"));
+            System.out.println(client.request("CDIR /"));
+            System.out.println(client.request("LIST F"));
 
             client.closeSocket();
         } catch (IOException e) {
