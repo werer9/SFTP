@@ -33,7 +33,10 @@ public class ServerSession extends Thread {
             new Password(),
             new Type(),
             new List(),
-            new ChangeDirectory()
+            new ChangeDirectory(),
+            new Kill(),
+            new Name(),
+            new Done()
     ));
 
     private final ServerConnection connection;
@@ -51,6 +54,8 @@ public class ServerSession extends Thread {
 
     private Types streamType;
 
+    private boolean keepRunning;
+
     public ServerSession(Socket socket, String hostname) throws IOException {
         this.connection = new ServerConnection(socket);
         this.state = States.WELCOME;
@@ -60,11 +65,12 @@ public class ServerSession extends Thread {
         this.hostname = hostname;
         this.username = "";
         this.account = "";
+        this.keepRunning = true;
     }
 
     @Override
     public void run() {
-        while (true) {
+        while (keepRunning) {
             try {
                 switch (this.state) {
                     case WELCOME:
@@ -82,9 +88,12 @@ public class ServerSession extends Thread {
                     case COMMAND:
                         this.command();
                         break;
+                    case LOGOUT:
+                        this.logout();
+                        break;
                 }
             } catch (IOException e) {
-                this.connection.closeConnection();
+                this.state = States.LOGOUT;
                 e.printStackTrace();
             }
         }
@@ -161,6 +170,7 @@ public class ServerSession extends Thread {
                 }
                 break;
             case "CDIR":
+                // TODO Add locked files
                 if (this.arguments.length >= 1) {
                     if (Files.isDirectory(this.cwd.resolve(this.arguments[0]))) {
                         this.cwd = this.cwd.resolve(this.arguments[0]).toAbsolutePath();
@@ -173,9 +183,22 @@ public class ServerSession extends Thread {
                     this.presentCommand.setError("No path specified");
                 }
                 break;
+            case "KILL":
+                break;
+            case "NAME":
+                break;
+            case "DONE":
+                this.arguments[0] = this.hostname;
+                this.state = States.LOGOUT;
+                break;
         }
 
         this.writeToClient();
+    }
+
+    private void logout() {
+        this.connection.closeConnection();
+        this.keepRunning = false;
     }
 
     private void loadInputData() throws IOException {

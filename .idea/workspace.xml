@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="90ab4a62-3abc-498b-a2e9-69e05b20cfff" name="Default Changelist" comment="Basic CDIR functionality">
+    <list default="true" id="90ab4a62-3abc-498b-a2e9-69e05b20cfff" name="Default Changelist" comment="CDIR works, locked files not yet working">
+      <change afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Done.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Kill.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Name.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/client/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ChangeDirectory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ChangeDirectory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/SFTPCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/SFTPCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ServerConnectionTest.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ServerSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ServerSession.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -192,7 +192,14 @@
       <option name="project" value="LOCAL" />
       <updated>1629501092049</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="CDIR works, locked files not yet working">
+      <created>1629565652487</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1629565652487</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -247,7 +254,8 @@
     <MESSAGE value="Implemented TYPE and simplified ServerSession.java" />
     <MESSAGE value="Implemented LIST" />
     <MESSAGE value="Basic CDIR functionality" />
-    <option name="LAST_COMMIT_MESSAGE" value="Basic CDIR functionality" />
+    <MESSAGE value="CDIR works, locked files not yet working" />
+    <option name="LAST_COMMIT_MESSAGE" value="CDIR works, locked files not yet working" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -257,9 +265,14 @@
           <option name="timeStamp" value="8" />
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Done.java</url>
+          <line>10</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ServerSession.java</url>
-          <line>163</line>
-          <option name="timeStamp" value="15" />
+          <line>156</line>
+          <option name="timeStamp" value="19" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

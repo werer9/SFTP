@@ -60,6 +60,7 @@ public class Client {
             System.out.println(client.request("LIST F"));
             System.out.println(client.request("CDIR /"));
             System.out.println(client.request("LIST F"));
+            System.out.println(client.request("DONE"));
 
             client.closeSocket();
         } catch (IOException e) {
