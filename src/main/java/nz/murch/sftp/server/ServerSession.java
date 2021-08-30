@@ -1,8 +1,8 @@
 package nz.murch.sftp.server;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -17,7 +17,6 @@ public class ServerSession extends Thread {
         ACCOUNT,
         PASSWORD,
         COMMAND,
-        COMMAND_CONT,
         LOGOUT,
     }
 
@@ -36,6 +35,7 @@ public class ServerSession extends Thread {
             new ChangeDirectory(),
             new Kill(),
             new Name(),
+            new ToBe(),
             new Done()
     ));
 
@@ -184,16 +184,57 @@ public class ServerSession extends Thread {
                 }
                 break;
             case "KILL":
+                if (this.arguments.length >= 1) {
+                    Path file = this.cwd.resolve(this.arguments[0]).toAbsolutePath();
+                    this.arguments[0] = file.toString();
+                } else {
+                    this.presentCommand.setError("Not deleted because no path specified");
+                }
                 break;
             case "NAME":
+                if (this.arguments.length >= 1) {
+                    Path file = this.cwd.resolve(this.arguments[0]).toAbsolutePath();
+                    this.arguments[0] = file.toString();
+                    this.tobe(file.toFile());
+                } else {
+                    this.presentCommand.setError("Can't find null");
+                }
                 break;
             case "DONE":
                 this.arguments[0] = this.hostname;
                 this.state = States.LOGOUT;
                 break;
+            default:
+                return;
         }
 
         this.writeToClient();
+    }
+
+    private void tobe(File fileOld) throws IOException {
+        this.writeToClient();
+        if (this.presentCommand.response == SFTPResponses.ERR)
+            return;
+        this.loadInputData();
+
+        if (this.presentCommand.toString().equals("TOBE") && this.previousCommand.toString().equals("NAME")) {
+            if (this.arguments.length >= 1) {
+                File fileNew = this.cwd.resolve(this.arguments[0]).toFile();
+
+                if (fileOld.exists()) {
+                    if (fileOld.renameTo(fileNew)) {
+                        this.arguments[0] = fileOld + " renamed to " + fileNew;
+                    } else {
+                        this.presentCommand.setError("File wasn't renamed because file already exists or " +
+                                "insufficient privileges");
+                    }
+                } else {
+                    this.presentCommand.setError("File wasn't renamed because original file doesn't exist");
+                }
+            } else {
+                this.presentCommand.setError("File wasn't renamed because no file was specified");
+            }
+        }
     }
 
     private void logout() {

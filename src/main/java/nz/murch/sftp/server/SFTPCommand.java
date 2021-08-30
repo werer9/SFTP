@@ -1,9 +1,6 @@
 package nz.murch.sftp.server;
 
 public abstract class SFTPCommand {
-//    KILL,
-//    NAME,
-//    DONE,
 //    RETR,
 //    STOR
     protected String name;

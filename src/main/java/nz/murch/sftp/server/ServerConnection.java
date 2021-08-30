@@ -34,7 +34,7 @@ public class ServerConnection {
             e.printStackTrace();
         }
 
-        System.out.println("Connection closed with" + this.connection.getInetAddress() + ":" +
+        System.out.println("Connection closed with" + this.connection.getInetAddress() + ": " +
                 this.connection.getPort());
     }
 

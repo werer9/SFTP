@@ -51,6 +51,10 @@ public class Client {
             System.out.println(client.request("TYPE A"));
             System.out.println(client.request("TYPE C"));
             System.out.println(client.request("TYPE B"));
+            System.out.println(client.request("KILL fakefile"));
+            System.out.println(client.request("NAME test"));
+            System.out.println(client.request("TOBE testfolder"));
+            System.out.println(client.request("KILL test"));
             System.out.println(client.request("LIST F ./"));
             System.out.println(client.request("LIST V ./"));
             System.out.println(client.request("LIST F"));

@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="90ab4a62-3abc-498b-a2e9-69e05b20cfff" name="Default Changelist" comment="CDIR works, locked files not yet working">
-      <change afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Done.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Kill.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Name.java" afterDir="false" />
+    <list default="true" id="90ab4a62-3abc-498b-a2e9-69e05b20cfff" name="Default Changelist" comment="DONE works. Created skeleton code for KILL and NAME">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Retrieve.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ToBe.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/client/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Kill.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Kill.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Name.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Name.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/SFTPCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/SFTPCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ServerConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ServerConnection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ServerSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ServerSession.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -149,6 +154,8 @@
       <option name="presentableId" value="Default" />
       <updated>1629301638070</updated>
       <workItem from="1629301639998" duration="7943000" />
+      <workItem from="1629962998187" duration="326000" />
+      <workItem from="1630032511463" duration="12857000" />
     </task>
     <task id="LOCAL-00001" summary="create branch">
       <created>1629390714852</created>
@@ -199,7 +206,14 @@
       <option name="project" value="LOCAL" />
       <updated>1629565652487</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="DONE works. Created skeleton code for KILL and NAME">
+      <created>1629569787372</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1629569787372</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -255,7 +269,8 @@
     <MESSAGE value="Implemented LIST" />
     <MESSAGE value="Basic CDIR functionality" />
     <MESSAGE value="CDIR works, locked files not yet working" />
-    <option name="LAST_COMMIT_MESSAGE" value="CDIR works, locked files not yet working" />
+    <MESSAGE value="DONE works. Created skeleton code for KILL and NAME" />
+    <option name="LAST_COMMIT_MESSAGE" value="DONE works. Created skeleton code for KILL and NAME" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -271,8 +286,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ServerSession.java</url>
-          <line>156</line>
-          <option name="timeStamp" value="19" />
+          <line>186</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ServerSession.java</url>
+          <line>194</line>
+          <option name="timeStamp" value="23" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -286,6 +306,7 @@
         <watch expression="this.arguments[0]" language="JAVA" />
         <watch expression="Paths.get(this.cwd + &quot;/..&quot;).toRealPath();" language="JAVA" />
         <watch expression="FileSystems.getDefault()" language="JAVA" custom="java.nio.file.FileSystems" />
+        <watch expression="this.cwd.resolve(this.arguments[0]).toAbsolutePath().toFile()" language="JAVA" />
       </configuration>
     </watches-manager>
   </component>
