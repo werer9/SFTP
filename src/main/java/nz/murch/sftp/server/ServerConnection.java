@@ -17,8 +17,12 @@ public class ServerConnection {
     }
 
     public void writeToClient(String data) throws IOException {
-        this.toClient.writeUTF(data + " \0");
+        this.toClient.writeUTF(data + "\0");
         this.toClient.flush();
+    }
+
+    public DataOutputStream getOutputStream() {
+        return this.toClient;
     }
 
     public String readFromClient() throws IOException {
@@ -34,7 +38,7 @@ public class ServerConnection {
             e.printStackTrace();
         }
 
-        System.out.println("Connection closed with" + this.connection.getInetAddress() + ": " +
+        System.out.println("Connection closed with" + this.connection.getInetAddress() + ":" +
                 this.connection.getPort());
     }
 

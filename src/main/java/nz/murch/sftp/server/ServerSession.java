@@ -1,7 +1,6 @@
 package nz.murch.sftp.server;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -36,7 +35,10 @@ public class ServerSession extends Thread {
             new Kill(),
             new Name(),
             new ToBe(),
-            new Done()
+            new Done(),
+            new Retrieve(),
+            new Send(),
+            new Stop()
     ));
 
     private final ServerConnection connection;
@@ -200,6 +202,16 @@ public class ServerSession extends Thread {
                     this.presentCommand.setError("Can't find null");
                 }
                 break;
+            case "RETR":
+                if (this.arguments.length >= 1) {
+                    Path file = this.cwd.resolve(this.arguments[0]).toAbsolutePath();
+                    this.arguments[0] = file.toString();
+                    this.send(file);
+                    return;
+                } else {
+                    this.presentCommand.setError("Can't find null");
+                }
+                break;
             case "DONE":
                 this.arguments[0] = this.hostname;
                 this.state = States.LOGOUT;
@@ -209,6 +221,31 @@ public class ServerSession extends Thread {
         }
 
         this.writeToClient();
+    }
+
+    private void send(Path file) throws IOException {
+        this.writeToClient();
+        if (this.presentCommand.response == SFTPResponses.ERR)
+            return;
+        this.loadInputData();
+
+        if (this.presentCommand.toString().equals("SEND") && this.previousCommand.toString().equals("RETR")) {
+            if (Files.exists(file)) {
+                try (InputStream fis = new FileInputStream(file.toFile())) {
+                    byte[] buffer = new byte[4096];
+                    int count;
+                    while ((count = fis.read(buffer)) > 0) {
+                        this.connection.getOutputStream().write(buffer, 0, count);
+                    }
+                    fis.close();
+                    this.connection.getOutputStream().flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else if (this.presentCommand.toString().equals("STOP") && this.previousCommand.toString().equals("RETR")) {
+            this.writeToClient();
+        }
     }
 
     private void tobe(File fileOld) throws IOException {

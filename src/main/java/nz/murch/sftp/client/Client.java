@@ -5,6 +5,8 @@ import nz.murch.sftp.server.Server;
 import java.io.*;
 import java.net.Socket;
 import java.nio.CharBuffer;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Client {
 
@@ -27,9 +29,8 @@ public class Client {
     public String request(String requestData) throws IOException {
         this.output.writeUTF(requestData + " \0");
         this.output.flush();
-        String response = this.input.readUTF();
 
-        return response;
+        return this.input.readUTF();
     }
 
     public void closeSocket() {
@@ -38,6 +39,28 @@ public class Client {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String retrieveFile(String filename) throws IOException {
+        String response = this.request("RETR " + filename);
+        int size = Integer.parseInt(response.substring(0, response.length()-1));
+        if (response.charAt(0) != '-') {
+            Path file = Paths.get("client/" + filename);
+            this.output.writeUTF("SEND" + " \0");
+            this.output.flush();
+            try (FileOutputStream fos = new FileOutputStream(file.toFile())) {
+                byte[] buffer = new byte[4096];
+                int total = 0;
+                while (total < size) {
+                    total = this.input.read(buffer);
+                    fos.write(buffer);
+                }
+                fos.flush();
+            }
+            this.output.flush();
+        }
+
+        return response;
     }
 
     public static void main(String[] args) {
@@ -54,7 +77,10 @@ public class Client {
             System.out.println(client.request("KILL fakefile"));
             System.out.println(client.request("NAME test"));
             System.out.println(client.request("TOBE testfolder"));
-            System.out.println(client.request("KILL test"));
+            System.out.println(client.request("CDIR testfolder"));
+            System.out.println(client.retrieveFile("test.txt"));
+            System.out.println(client.request("CDIR .."));
+            System.out.println(client.request("KILL testfolder"));
             System.out.println(client.request("LIST F ./"));
             System.out.println(client.request("LIST V ./"));
             System.out.println(client.request("LIST F"));

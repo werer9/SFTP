@@ -19,6 +19,7 @@ public class Retrieve extends SFTPCommand {
         if (Files.exists(file)) {
             try {
                 this.success = "" + Files.size(file);
+                this.response = SFTPResponses.SUCCESS;
             } catch (IOException e) {
                 this.response = SFTPResponses.ERR;
                 e.printStackTrace();
