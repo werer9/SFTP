@@ -25,6 +25,10 @@ public class ServerConnection {
         return this.toClient;
     }
 
+    public DataInputStream getInputStream() {
+        return this.fromClient;
+    }
+
     public String readFromClient() throws IOException {
         return this.fromClient.readUTF();
     }

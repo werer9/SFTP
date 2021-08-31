@@ -5,6 +5,7 @@ import nz.murch.sftp.server.Server;
 import java.io.*;
 import java.net.Socket;
 import java.nio.CharBuffer;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -27,7 +28,7 @@ public class Client {
     }
 
     public String request(String requestData) throws IOException {
-        this.output.writeUTF(requestData + " \0");
+        this.output.writeUTF(requestData + "\0");
         this.output.flush();
 
         return this.input.readUTF();
@@ -46,18 +47,40 @@ public class Client {
         int size = Integer.parseInt(response.substring(0, response.length()-1));
         if (response.charAt(0) != '-') {
             Path file = Paths.get("client/" + filename);
-            this.output.writeUTF("SEND" + " \0");
+            this.output.writeUTF("SEND" + "\0");
             this.output.flush();
             try (FileOutputStream fos = new FileOutputStream(file.toFile())) {
                 byte[] buffer = new byte[4096];
                 int total = 0;
+                int length;
                 while (total < size) {
-                    total = this.input.read(buffer);
-                    fos.write(buffer);
+                    length = this.input.read(buffer);
+                    total += length;
+                    fos.write(buffer, 0, length);
                 }
-                fos.flush();
             }
             this.output.flush();
+        }
+
+        return response;
+    }
+
+    public String storeFile(String filename) throws IOException {
+        String response = this.request("STOR NEW " + filename);
+
+        if (response.charAt(0) != '-') {
+            Path file = Paths.get("client/" + filename);
+            long size = Files.size(file);
+            response = this.request("SIZE " + size + "\0");
+            if (response.charAt(0) != '-') {
+                try (FileInputStream fis = new FileInputStream(file.toFile())) {
+                    byte[] buffer = new byte[4096];
+                    int count;
+                    while ((count = fis.read(buffer)) >= 0) {
+                        this.output.write(buffer, 0, count);
+                    }
+                }
+            }
         }
 
         return response;
@@ -79,6 +102,9 @@ public class Client {
             System.out.println(client.request("TOBE testfolder"));
             System.out.println(client.request("CDIR testfolder"));
             System.out.println(client.retrieveFile("test.txt"));
+            System.out.println(client.storeFile("test2.txt"));
+            System.out.println(client.request("RETR " + "test.txt"));
+            System.out.println(client.request("STOP"));
             System.out.println(client.request("CDIR .."));
             System.out.println(client.request("KILL testfolder"));
             System.out.println(client.request("LIST F ./"));

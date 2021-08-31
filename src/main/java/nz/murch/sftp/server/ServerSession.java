@@ -25,6 +25,12 @@ public class ServerSession extends Thread {
         CONTINUOUS
     }
 
+    private enum StoreModes {
+        NEW,
+        OLD,
+        APP
+    }
+
     private final Vector<SFTPCommand> commands = new Vector<>(Arrays.asList(
             new User(),
             new Account(),
@@ -38,7 +44,9 @@ public class ServerSession extends Thread {
             new Done(),
             new Retrieve(),
             new Send(),
-            new Stop()
+            new Stop(),
+            new Store(),
+            new Size()
     ));
 
     private final ServerConnection connection;
@@ -75,24 +83,12 @@ public class ServerSession extends Thread {
         while (keepRunning) {
             try {
                 switch (this.state) {
-                    case WELCOME:
-                        this.welcome();
-                        break;
-                    case USER:
-                        this.user();
-                        break;
-                    case ACCOUNT:
-                        this.account();
-                        break;
-                    case PASSWORD:
-                        this.password();
-                        break;
-                    case COMMAND:
-                        this.command();
-                        break;
-                    case LOGOUT:
-                        this.logout();
-                        break;
+                    case WELCOME -> this.welcome();
+                    case USER -> this.user();
+                    case ACCOUNT -> this.account();
+                    case PASSWORD -> this.password();
+                    case COMMAND -> this.command();
+                    case LOGOUT -> this.logout();
                 }
             } catch (IOException e) {
                 this.state = States.LOGOUT;
@@ -167,9 +163,6 @@ public class ServerSession extends Thread {
                 }
                 break;
             case "LIST":
-                if (this.arguments[1].equals("./") || this.arguments[1].equals("\0")) {
-                    this.arguments[1] = this.cwd.toString();
-                }
                 break;
             case "CDIR":
                 // TODO Add locked files
@@ -213,14 +206,77 @@ public class ServerSession extends Thread {
                 }
                 break;
             case "DONE":
-                this.arguments[0] = this.hostname;
+                this.arguments = new String[]{this.hostname};
                 this.state = States.LOGOUT;
+                break;
+            case "STOR":
+                if (this.arguments.length >= 2) {
+                    StoreModes mode;
+                    switch (this.arguments[0]) {
+                        case "NEW":
+                            mode = StoreModes.NEW;
+                            break;
+                        case "OLD":
+                            mode = StoreModes.OLD;
+                            break;
+                        case "APP":
+                            mode = StoreModes.APP;
+                            break;
+                        default:
+                            return;
+                    }
+                    Path file = this.cwd.resolve(this.arguments[1]).toAbsolutePath();
+                    this.arguments[1] = file.toString();
+                    this.store(file, mode);
+                    return;
+                } else {
+                    this.presentCommand.setError("Can't find null");
+                }
                 break;
             default:
                 return;
         }
 
         this.writeToClient();
+    }
+
+    private void store(Path file, StoreModes mode) throws IOException {
+        this.writeToClient();
+        if (this.presentCommand.response == SFTPResponses.ERR)
+            return;
+        this.loadInputData();
+
+        if (this.presentCommand.toString().equals("SIZE") && this.previousCommand.toString().equals("STOR") &&
+                this.arguments.length >= 1) {
+            int size = Integer.parseInt(this.arguments[0].substring(0, this.arguments[0].length()-1));
+            this.writeToClient();
+            if (this.presentCommand.response == SFTPResponses.ERR)
+                return;
+            if (Files.exists(file)) {
+                switch (mode) {
+                    case NEW:
+                        break;
+                    case APP:
+                        break;
+                }
+            }
+
+            try (FileOutputStream fos = new FileOutputStream(file.toFile())) {
+                byte[] buffer = new byte[4096];
+                int total = 0;
+                int length;
+                while (total < size) {
+                    length = this.connection.getInputStream().read(buffer);
+                    total += length;
+                    fos.write(buffer, 0, length);
+                }
+                fos.close();
+                this.connection.writeToClient("+Saved " + file);
+            } catch (IOException e) {
+                e.printStackTrace();
+                this.connection.writeToClient("-Couldn't save because an IOException occurred");
+            }
+        }
     }
 
     private void send(Path file) throws IOException {
@@ -281,6 +337,7 @@ public class ServerSession extends Thread {
 
     private void loadInputData() throws IOException {
         this.input = this.connection.readFromClient();
+        this.input = this.input.substring(0, this.input.length()-1);
         this.previousCommand = this.presentCommand;
         this.presentCommand = interpretCommand(input);
         this.arguments = getCommandArguments(input);

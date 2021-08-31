@@ -17,7 +17,7 @@ public class List extends SFTPCommand {
 
     @Override
     public SFTPResponses executeCommand(String[] args) {
-        if (args[1] != null) {
+        if (args.length >= 2) {
             Path directory = Paths.get(args[1]);
             ArrayList<Path> fileList = new ArrayList<>();
             try (DirectoryStream<Path> paths = Files.newDirectoryStream(directory)){

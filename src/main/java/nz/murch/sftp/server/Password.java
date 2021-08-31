@@ -12,11 +12,7 @@ public class Password extends SFTPCommand {
     public SFTPResponses executeCommand(String[] args) {
         String password = "password";
         if (args[0].equals(password)) {
-            if (args[1] != null) {
-                this.response = SFTPResponses.LOGIN;
-            } else {
-                this.response = SFTPResponses.SUCCESS;
-            }
+            this.response = SFTPResponses.LOGIN;
         } else {
             this.response = SFTPResponses.ERR;
         }
