@@ -14,13 +14,16 @@ import java.nio.file.Paths;
 public class Server {
 
     public static void main(String[] args) throws IOException {
+        // create new socket and listen on port 8080
         Socket socket = new Socket();
         generateTestFile();
         ServerSocket serverSocket = new ServerSocket(8080);
         System.out.println("Server open");
-        while (true) {
+        while (true) { // main loop
             try {
+                // if new client connects
                 socket = serverSocket.accept();
+                // create new socket and thread for dealing with that client
                 Thread serverSession = new ServerSession(socket, "localhost");
                 System.out.println("Connection established with: " + socket.getInetAddress() + ":" + socket.getPort());
                 serverSession.start();
@@ -33,6 +36,7 @@ public class Server {
     }
 
     public static void generateTestFile() {
+        // generate test directory and test.txt
         Path file = Paths.get("test");
         if (!Files.exists(file)) {
             try {
@@ -42,6 +46,7 @@ public class Server {
             }
         }
 
+        // create test.txt and write to it
         file = Paths.get("test/test.txt");
         Charset charset = StandardCharsets.US_ASCII;
         String s = "test";

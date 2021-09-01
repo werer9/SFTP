@@ -18,7 +18,9 @@ public class List extends SFTPCommand {
 
     @Override
     public SFTPResponses executeCommand(String[] args) {
-        if (args.length >= 2) {
+        // check arguments are supplies and check if directory
+        if (args.length >= 2 && Files.isDirectory(Paths.get(args[1]))) {
+            // get list directory
             Path directory = Paths.get(args[1]);
             ArrayList<Path> fileList = new ArrayList<>();
             try (DirectoryStream<Path> paths = Files.newDirectoryStream(directory)){
@@ -28,13 +30,13 @@ public class List extends SFTPCommand {
                 e.printStackTrace();
             }
 
-            if (args[0].equals("F")) {
+            if (args[0].equals("F")) { // normal list, send to client
                 this.success = SFTPResponses.SUCCESS + directory.toString() + "\r\n";
                 for (Path file : fileList) {
                     this.success = String.format("%s%s\r\n", this.success, file.getFileName());
                 }
                 this.response = SFTPResponses.SUCCESS;
-            } else if (args[0].equals("V")) {
+            } else if (args[0].equals("V")) { // verbose list, sent to client
                 this.success = SFTPResponses.SUCCESS + directory.toString() + "\r\n";
                 for (Path file : fileList) {
                     try {
@@ -46,11 +48,11 @@ public class List extends SFTPCommand {
                     }
                 }
                 this.response = SFTPResponses.SUCCESS;
-            } else {
+            } else { // list argument not V or F
                 this.error = SFTPResponses.ERR + "List argument invalid";
                 this.response = SFTPResponses.ERR;
             }
-        } else {
+        } else { // no directory found or not directory
             this.error = SFTPResponses.ERR + "Directory not specified or present";
             this.response = SFTPResponses.ERR;
         }

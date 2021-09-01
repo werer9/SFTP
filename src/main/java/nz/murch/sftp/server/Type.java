@@ -14,6 +14,7 @@ public class Type extends SFTPCommand {
         String[] arguments = this.session.getArguments();
 
         if (arguments[0] != null) {
+            // check argument from client and tell client that stream mode is being used
             switch (args[0]) {
                 case "A" -> {
                     this.success = SFTPResponses.SUCCESS + "Using Ascii mode";
@@ -30,7 +31,7 @@ public class Type extends SFTPCommand {
                     this.session.setStreamType(ServerSession.Types.CONTINUOUS);
                     this.response = SFTPResponses.SUCCESS;
                 }
-                default -> this.response = SFTPResponses.ERR;
+                default -> this.response = SFTPResponses.ERR; // argument not valid
             }
         }
 

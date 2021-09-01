@@ -10,12 +10,13 @@ public class ChangeDirectory extends SFTPCommand {
 
     @Override
     public SFTPResponses executeCommand(String[] args) {
+        // reset error flag
         if (this.isError) {
             this.isError = false;
             return this.response;
         }
 
-        if (!args[0].equals("")) {
+        if (!args[0].equals("")) { // if there is a path specified
             this.login = SFTPResponses.LOGIN + "Changed working dir to " + args[0];
             this.response = SFTPResponses.LOGIN;
         } else {

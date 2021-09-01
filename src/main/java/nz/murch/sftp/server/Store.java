@@ -16,6 +16,7 @@ public class Store extends SFTPCommand {
         if (args.length >= 2) {
             Path file = Paths.get(args[1]);
             boolean doesFileExist = Files.exists(file);
+            // check for storage mode and tell client what will happen
             switch (args[0]) {
                 case "NEW" -> {
                     this.success = doesFileExist ? "File exists, will create new generation of file" :

@@ -10,6 +10,7 @@ public class Stop extends SFTPCommand {
 
     @Override
     public SFTPResponses executeCommand(String[] args) {
+        // tell client retrieve is aborted
         return this.response;
     }
 }

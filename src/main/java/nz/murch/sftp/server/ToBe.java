@@ -10,6 +10,7 @@ public class ToBe extends SFTPCommand {
 
     @Override
     public SFTPResponses executeCommand(String[] args) {
+        // let client know rename was successful depending on args[0] set by tobe method
         if (this.response != SFTPResponses.ERR) {
             this.response = SFTPResponses.SUCCESS;
             this.success = SFTPResponses.SUCCESS + args[0];

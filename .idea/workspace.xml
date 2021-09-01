@@ -1,10 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="90ab4a62-3abc-498b-a2e9-69e05b20cfff" name="Default Changelist" comment="most tests are now passing">
+    <list default="true" id="90ab4a62-3abc-498b-a2e9-69e05b20cfff" name="Default Changelist" comment="All tests pass">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/client/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/client/ClientTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/client/ClientTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ChangeDirectory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ChangeDirectory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Done.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Done.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Kill.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Kill.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/List.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/List.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Name.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Name.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Password.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Password.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Retrieve.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Retrieve.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/SFTPCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/SFTPCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/SFTPResponses.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/SFTPResponses.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Send.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Send.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ServerConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ServerConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ServerSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ServerSession.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Size.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Size.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Stop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Stop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Store.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Store.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ToBe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ToBe.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Type.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -180,7 +199,7 @@
       <updated>1629301638070</updated>
       <workItem from="1629301639998" duration="7943000" />
       <workItem from="1629962998187" duration="326000" />
-      <workItem from="1630032511463" duration="58561000" />
+      <workItem from="1630032511463" duration="60977000" />
     </task>
     <task id="LOCAL-00001" summary="create branch">
       <created>1629390714852</created>
@@ -280,7 +299,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630490950557</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="All tests pass">
+      <created>1630492842903</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1630492842903</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -343,7 +369,8 @@
     <MESSAGE value="appending mode works in store command" />
     <MESSAGE value="new mode now works" />
     <MESSAGE value="most tests are now passing" />
-    <option name="LAST_COMMIT_MESSAGE" value="most tests are now passing" />
+    <MESSAGE value="All tests pass" />
+    <option name="LAST_COMMIT_MESSAGE" value="All tests pass" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -358,13 +385,8 @@
           <option name="timeStamp" value="49" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Name.java</url>
-          <line>17</line>
-          <option name="timeStamp" value="56" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ServerSession.java</url>
-          <line>283</line>
+          <line>333</line>
           <option name="timeStamp" value="57" />
         </line-breakpoint>
       </breakpoints>

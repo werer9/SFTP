@@ -1,7 +1,7 @@
 package nz.murch.sftp.server;
 
 public class Send extends SFTPCommand {
-    public Send(ServerSession session) {
+    public Send(ServerSession session) { // send command data, this does not interact with socket
         super(session);
         this.name = "SEND";
         this.success = "";

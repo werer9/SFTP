@@ -15,9 +15,10 @@ public class Retrieve extends SFTPCommand {
 
     @Override
     public SFTPResponses executeCommand(String[] args) {
+        // get file to be retrieved
         Path file = Paths.get(args[0]);
         if (Files.exists(file)) {
-            try {
+            try { // let client know file is found
                 this.success = "" + Files.size(file);
                 this.response = SFTPResponses.SUCCESS;
             } catch (IOException e) {
