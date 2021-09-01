@@ -32,7 +32,7 @@ public class Server {
 
     }
 
-    private static void generateTestFile() {
+    public static void generateTestFile() {
         Path file = Paths.get("test");
         if (!Files.exists(file)) {
             try {

@@ -1,11 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="90ab4a62-3abc-498b-a2e9-69e05b20cfff" name="Default Changelist" comment="appending mode works in store command">
+    <list default="true" id="90ab4a62-3abc-498b-a2e9-69e05b20cfff" name="Default Changelist" comment="new mode now works">
+      <change afterPath="$PROJECT_DIR$/database" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/client/ClientTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/client/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ChangeDirectory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ChangeDirectory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Done.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Done.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Kill.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Kill.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/List.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/List.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Name.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Name.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Password.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Password.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Retrieve.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Retrieve.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/SFTPCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/SFTPCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Send.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Send.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Server.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ServerSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ServerSession.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Size.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Size.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Stop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Stop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Store.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Store.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ToBe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ToBe.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Type.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/database" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,8 +34,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JUnit5 Test Class" />
         <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -55,32 +74,22 @@
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
     <property name="create.test.in.the.same.root" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="project.propCompiler" />
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Caelan\IdeaProjects\SFTP" />
       <recent name="C:\Users\Caelan\IdeaProjects\SFTP\src\main" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="nz.murch.sftp.client" />
       <recent name="nz.murch.sftp" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Server">
-    <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="nz.murch.sftp.client.Client" />
-      <module name="SFTP" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="nz.murch.sftp.client.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="JUnit.ClientTest.name">
     <configuration name="Server" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="nz.murch.sftp.server.Server" />
       <module name="SFTP" />
@@ -105,33 +114,65 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ServerConnectionTest.getCommandArguments" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ClientTest.changeDirectory" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SFTP" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="nz.murch.sftp.*" />
+          <option name="PATTERN" value="nz.murch.sftp.client.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="nz.murch.sftp" />
-      <option name="MAIN_CLASS_NAME" value="nz.murch.sftp.ServerConnectionTest" />
-      <option name="METHOD_NAME" value="getCommandArguments" />
+      <option name="PACKAGE_NAME" value="nz.murch.sftp.client" />
+      <option name="MAIN_CLASS_NAME" value="nz.murch.sftp.client.ClientTest" />
+      <option name="METHOD_NAME" value="changeDirectory" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ServerConnectionTest.interpretCommand" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ClientTest.kill" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SFTP" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="nz.murch.sftp.*" />
+          <option name="PATTERN" value="nz.murch.sftp.client.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="nz.murch.sftp" />
-      <option name="MAIN_CLASS_NAME" value="nz.murch.sftp.ServerConnectionTest" />
-      <option name="METHOD_NAME" value="interpretCommand" />
+      <option name="PACKAGE_NAME" value="nz.murch.sftp.client" />
+      <option name="MAIN_CLASS_NAME" value="nz.murch.sftp.client.ClientTest" />
+      <option name="METHOD_NAME" value="kill" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ClientTest.name" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SFTP" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="nz.murch.sftp.client.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="nz.murch.sftp.client" />
+      <option name="MAIN_CLASS_NAME" value="nz.murch.sftp.client.ClientTest" />
+      <option name="METHOD_NAME" value="name" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ClientTest.type" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SFTP" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="nz.murch.sftp.client.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="nz.murch.sftp.client" />
+      <option name="MAIN_CLASS_NAME" value="nz.murch.sftp.client.ClientTest" />
+      <option name="METHOD_NAME" value="type" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -139,10 +180,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Client" />
+        <item itemvalue="JUnit.ClientTest.name" />
         <item itemvalue="Application.Server" />
-        <item itemvalue="JUnit.ServerConnectionTest.interpretCommand" />
-        <item itemvalue="JUnit.ServerConnectionTest.getCommandArguments" />
+        <item itemvalue="JUnit.ClientTest.changeDirectory" />
+        <item itemvalue="JUnit.ClientTest.kill" />
+        <item itemvalue="JUnit.ClientTest.type" />
       </list>
     </recent_temporary>
   </component>
@@ -156,7 +198,7 @@
       <updated>1629301638070</updated>
       <workItem from="1629301639998" duration="7943000" />
       <workItem from="1629962998187" duration="326000" />
-      <workItem from="1630032511463" duration="40277000" />
+      <workItem from="1630032511463" duration="56668000" />
     </task>
     <task id="LOCAL-00001" summary="create branch">
       <created>1629390714852</created>
@@ -242,7 +284,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630454627756</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="new mode now works">
+      <created>1630465036038</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1630465036038</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -303,7 +352,8 @@
     <MESSAGE value="basic Retrieve function" />
     <MESSAGE value="basic store function" />
     <MESSAGE value="appending mode works in store command" />
-    <option name="LAST_COMMIT_MESSAGE" value="appending mode works in store command" />
+    <MESSAGE value="new mode now works" />
+    <option name="LAST_COMMIT_MESSAGE" value="new mode now works" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -313,9 +363,19 @@
           <option name="timeStamp" value="8" />
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Done.java</url>
-          <line>10</line>
-          <option name="timeStamp" value="17" />
+          <url>file://$PROJECT_DIR$/src/main/java/nz/murch/sftp/client/ClientTest.java</url>
+          <line>68</line>
+          <option name="timeStamp" value="49" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Name.java</url>
+          <line>17</line>
+          <option name="timeStamp" value="56" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ServerSession.java</url>
+          <line>283</line>
+          <option name="timeStamp" value="57" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

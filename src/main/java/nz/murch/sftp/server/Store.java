@@ -6,8 +6,8 @@ import java.nio.file.Paths;
 
 public class Store extends SFTPCommand {
 
-    public Store() {
-        super();
+    public Store(ServerSession session) {
+        super(session);
         this.name = "STOR";
     }
 

@@ -1,12 +1,11 @@
 package nz.murch.sftp.server;
 
 import java.io.File;
-import java.io.IOException;
 
 public class Size extends SFTPCommand {
 
-    public Size() {
-        super();
+    public Size(ServerSession session) {
+        super(session);
         this.name = "SIZE";
     }
 

@@ -10,7 +10,8 @@ import java.util.ArrayList;
 
 public class List extends SFTPCommand {
 
-    public List() {
+    public List(ServerSession session) {
+        super(session);
         this.name = "LIST";
     }
 

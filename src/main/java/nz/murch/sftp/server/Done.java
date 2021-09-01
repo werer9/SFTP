@@ -2,7 +2,8 @@ package nz.murch.sftp.server;
 
 public class Done extends SFTPCommand {
 
-    public Done() {
+    public Done(ServerSession session) {
+        super(session);
         this.name = "DONE";
     }
 

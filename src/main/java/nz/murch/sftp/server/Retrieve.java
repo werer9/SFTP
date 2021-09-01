@@ -7,8 +7,8 @@ import java.nio.file.Paths;
 
 public class Retrieve extends SFTPCommand {
 
-    public Retrieve() {
-        super();
+    public Retrieve(ServerSession session) {
+        super(session);
         this.name = "RETR";
         this.error = SFTPResponses.ERR + "File doesn't exist";
     }

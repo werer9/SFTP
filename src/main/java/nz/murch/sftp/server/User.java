@@ -2,7 +2,8 @@ package nz.murch.sftp.server;
 
 public class User extends SFTPCommand {
 
-    public User() {
+    public User(ServerSession session) {
+        super(session);
         this.name = "USER";
         this.success = SFTPResponses.SUCCESS + "User-id valid, send account and password";
         this.error = SFTPResponses.ERR + "Invalid user-id, try again";
@@ -10,16 +11,29 @@ public class User extends SFTPCommand {
 
     @Override
     public SFTPResponses executeCommand(String[] args) {
-        String user2 = "user2";
-        String user1 = "user1";
-        if (args[0].equals(user1)) {
-            this.response = SFTPResponses.SUCCESS;
-        } else if (args[0].equals(user2)) {
-            this.response = SFTPResponses.LOGIN;
-        } else {
+        SFTPCommand presentCommand = this.session.getPresentCommand();
+        String[] arguments = this.session.getArguments();
+        String[] accountData = this.session.getAccountData();
+
+        if (accountData[0].equals("null")) {
             this.response = SFTPResponses.ERR;
+        } else {
+            if (accountData.length == 1 && arguments[0].equals(accountData[0])) {
+                this.response = SFTPResponses.LOGIN;
+            } else if (accountData.length > 1 && arguments[0].equals(accountData[0])) {
+                this.response = SFTPResponses.SUCCESS;
+            } else {
+                this.response = SFTPResponses.ERR;
+            }
         }
-        String user = args[0];
+
+        if (response == SFTPResponses.SUCCESS) {
+            this.session.setServerState(ServerSession.ServerStates.ACCOUNT);
+        } else if (response == SFTPResponses.LOGIN) {
+            this.session.setServerState(ServerSession.ServerStates.COMMAND);
+        }
+
+        String user = arguments[0];
         this.login = SFTPResponses.LOGIN + "" + user + " logged in";
 
         return response;

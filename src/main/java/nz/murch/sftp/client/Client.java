@@ -64,6 +64,10 @@ public class Client {
         return response;
     }
 
+    public String stop() throws IOException {
+        return this.request("STOP");
+    }
+
     public String storeFile(String filename, ServerSession.StoreModes mode) throws IOException {
         String response = this.request("STOR " + mode.toString() + " " + filename);
 
@@ -86,41 +90,86 @@ public class Client {
         return response;
     }
 
+    public String user(String username) throws IOException {
+        return this.request("USER " + username);
+    }
+
+    public String account(String account) throws IOException {
+        return this.request("ACCT " + account);
+    }
+
+    public String password(String password) throws IOException {
+        return this.request("PASS " + password);
+    }
+
+    public String type(ServerSession.Types type) throws IOException {
+        String typeString = switch (type) {
+            case ASCII -> "A";
+            case BINARY -> "B";
+            case CONTINUOUS -> "C";
+        };
+        return this.request("TYPE " + typeString);
+    }
+
+    public String kill(String path) throws IOException {
+        return this.request("KILL " + path);
+    }
+
+    public String name(String path) throws IOException {
+        return this.request("NAME " + path);
+    }
+
+    public String toBe(String path) throws IOException {
+        return this.request("TOBE " + path);
+    }
+
+    public String changeDirectory(String path) throws IOException {
+        return this.request("CDIR " + path);
+    }
+
+    public String list(String args) throws IOException {
+        return this.request("LIST " + args);
+    }
+
+    public String done() throws IOException {
+        return this.request("DONE");
+    }
+
     public static void main(String[] args) {
         try {
             Client client = new Client();
-            System.out.println(client.request("USER caelan"));
-            System.out.println(client.request("USER user1"));
-            System.out.println(client.request("ACCT account2"));
-            System.out.println(client.request("PASS abc123"));
-            System.out.println(client.request("PASS password"));
-            System.out.println(client.request("TYPE A"));
-            System.out.println(client.request("TYPE C"));
-            System.out.println(client.request("TYPE B"));
-            System.out.println(client.request("KILL fakefile"));
-            System.out.println(client.request("KILL testfolder"));
-            System.out.println(client.request("NAME test"));
-            System.out.println(client.request("TOBE testfolder"));
-            System.out.println(client.request("CDIR testfolder"));
+            System.out.println(client.user("user"));
+            System.out.println(client.user("user1"));
+            System.out.println(client.account("account2"));
+            System.out.println(client.password("abc123"));
+            System.out.println(client.password("password"));
+            System.out.println(client.type(ServerSession.Types.ASCII));
+            System.out.println(client.type(ServerSession.Types.CONTINUOUS));
+            System.out.println(client.type(ServerSession.Types.BINARY));
+            System.out.println(client.kill("fakefile"));
+            System.out.println(client.kill("testfolder"));
+            System.out.println(client.name("test"));
+            System.out.println(client.toBe("testfolder"));
+            System.out.println(client.changeDirectory("testfolder"));
             System.out.println(client.retrieveFile("test.txt"));
             System.out.println(client.storeFile("test2.txt", ServerSession.StoreModes.NEW));
             System.out.println(client.storeFile("test2.txt", ServerSession.StoreModes.OLD));
             System.out.println(client.storeFile("test2.txt", ServerSession.StoreModes.APP));
             System.out.println(client.storeFile("test2.txt", ServerSession.StoreModes.NEW));
             System.out.println(client.request("RETR " + "test.txt"));
-            System.out.println(client.request("STOP"));
-            System.out.println(client.request("CDIR .."));
-            System.out.println(client.request("KILL testfolder"));
-            System.out.println(client.request("LIST F ./"));
-            System.out.println(client.request("LIST V ./"));
-            System.out.println(client.request("LIST F"));
-            System.out.println(client.request("CDIR src"));
-            System.out.println(client.request("LIST F"));
-            System.out.println(client.request("CDIR .."));
-            System.out.println(client.request("LIST F"));
-            System.out.println(client.request("CDIR /"));
-            System.out.println(client.request("LIST F"));
-            System.out.println(client.request("DONE"));
+            System.out.println(client.stop());
+            System.out.println(client.changeDirectory(".."));
+            System.out.println(client.kill("testfolder"));
+            System.out.println(client.list("F ./"));
+            System.out.println(client.list("V ./"));
+            System.out.println(client.list("F"));
+            System.out.println(client.changeDirectory("src"));
+            System.out.println(client.list("F"));
+            System.out.println(client.changeDirectory(".."));
+            System.out.println(client.list("F"));
+            System.out.println(client.changeDirectory("/"));
+            System.out.println(client.list("F"));
+            System.out.println(client.done());
 
             client.closeSocket();
         } catch (IOException e) {

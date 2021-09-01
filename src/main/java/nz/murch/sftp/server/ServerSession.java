@@ -8,7 +8,7 @@ import java.util.Vector;
 
 public class ServerSession extends Thread {
 
-    private enum States {
+    public enum ServerStates {
         WELCOME,
         USER,
         ACCOUNT,
@@ -30,29 +30,28 @@ public class ServerSession extends Thread {
     }
 
     private final Vector<SFTPCommand> commands = new Vector<>(Arrays.asList(
-            new User(),
-            new Account(),
-            new Password(),
-            new Type(),
-            new List(),
-            new ChangeDirectory(),
-            new Kill(),
-            new Name(),
-            new ToBe(),
-            new Done(),
-            new Retrieve(),
-            new Send(),
-            new Stop(),
-            new Store(),
-            new Size()
+            new User(this),
+            new Account(this),
+            new Password(this),
+            new Type(this),
+            new List(this),
+            new ChangeDirectory(this),
+            new Kill(this),
+            new Name(this),
+            new ToBe(this),
+            new Done(this),
+            new Retrieve(this),
+            new Send(this),
+            new Stop(this),
+            new Store(this),
+            new Size(this)
     ));
 
     private final ServerConnection connection;
-    private States state;
+    private ServerStates state;
 
     private final String hostname;
-    private String username;
-    private String account;
+    private String[] accountData;
     private Path cwd;
 
     private String input;
@@ -66,13 +65,11 @@ public class ServerSession extends Thread {
 
     public ServerSession(Socket socket, String hostname) throws IOException {
         this.connection = new ServerConnection(socket);
-        this.state = States.WELCOME;
+        this.state = ServerStates.WELCOME;
         this.streamType = Types.BINARY;
         this.cwd = Paths.get("");
 
         this.hostname = hostname;
-        this.username = "";
-        this.account = "";
         this.keepRunning = true;
     }
 
@@ -89,7 +86,7 @@ public class ServerSession extends Thread {
                     case LOGOUT -> this.logout();
                 }
             } catch (IOException e) {
-                this.state = States.LOGOUT;
+                this.state = ServerStates.LOGOUT;
                 e.printStackTrace();
             }
         }
@@ -97,23 +94,17 @@ public class ServerSession extends Thread {
 
     private void welcome() throws IOException {
         this.connection.writeToClient("+" + hostname + " Welcome :)");
-        this.state = States.USER;
+        this.state = ServerStates.USER;
     }
 
     private void user() throws IOException {
         loadInputData();
 
-        assert this.presentCommand != null;
-        if (this.presentCommand.toString().equals("USER") && this.arguments[0] != null) {
-            this.username = this.arguments[0];
+        if (presentCommand.toString().equals("USER") && arguments[0] != null) {
+            this.accountData = this.retrieveUser(arguments[0]);
             SFTPResponses response = this.writeToClient();
-            if (response == SFTPResponses.SUCCESS) {
-                this.state = States.ACCOUNT;
-            } else if (response == SFTPResponses.LOGIN) {
-                this.state = States.COMMAND;
-            }
-
         }
+
     }
 
     private void account() throws IOException {
@@ -121,14 +112,7 @@ public class ServerSession extends Thread {
 
         assert this.presentCommand != null;
         if (this.presentCommand.toString().equals("ACCT") && this.arguments[0] != null) {
-            this.account = this.arguments[0];
             SFTPResponses response = this.writeToClient();
-            if (response == SFTPResponses.SUCCESS) {
-                this.state = States.PASSWORD;
-            } else if (response == SFTPResponses.LOGIN) {
-                this.state = States.COMMAND;
-            }
-
         }
     }
 
@@ -138,12 +122,6 @@ public class ServerSession extends Thread {
         assert this.presentCommand != null;
         if (this.presentCommand.toString().equals("PASS") && this.arguments[0] != null) {
             SFTPResponses response = this.writeToClient();
-            if (response == SFTPResponses.SUCCESS) {
-                this.state = States.ACCOUNT;
-            } else if (response == SFTPResponses.LOGIN) {
-                this.state = States.COMMAND;
-            }
-
         }
     }
 
@@ -151,17 +129,6 @@ public class ServerSession extends Thread {
         this.loadInputData();
 
         switch (this.presentCommand.toString()) {
-            case "TYPE":
-                if (this.arguments[0] != null) {
-                    switch (this.arguments[0]) {
-                        case "A" -> this.streamType = Types.ASCII;
-                        case "B" -> this.streamType = Types.BINARY;
-                        case "C" -> this.streamType = Types.CONTINUOUS;
-                    }
-                }
-                break;
-            case "LIST":
-                break;
             case "CDIR":
                 // TODO Add locked files
                 if (this.arguments.length >= 1) {
@@ -176,19 +143,12 @@ public class ServerSession extends Thread {
                     this.presentCommand.setError("No path specified");
                 }
                 break;
-            case "KILL":
-                if (this.arguments.length >= 1) {
-                    Path file = this.cwd.resolve(this.arguments[0]).toAbsolutePath();
-                    this.arguments[0] = file.toString();
-                } else {
-                    this.presentCommand.setError("Not deleted because no path specified");
-                }
-                break;
             case "NAME":
                 if (this.arguments.length >= 1) {
                     Path file = this.cwd.resolve(this.arguments[0]).toAbsolutePath();
                     this.arguments[0] = file.toString();
-                    this.tobe(file.toFile());
+                    this.tobe(file);
+                    return;
                 } else {
                     this.presentCommand.setError("Can't find null");
                 }
@@ -204,8 +164,9 @@ public class ServerSession extends Thread {
                 }
                 break;
             case "DONE":
+                // TODO automatically run this in every state
                 this.arguments = new String[]{this.hostname};
-                this.state = States.LOGOUT;
+                this.state = ServerStates.LOGOUT;
                 break;
             case "STOR":
                 if (this.arguments.length >= 2) {
@@ -231,8 +192,6 @@ public class ServerSession extends Thread {
                     this.presentCommand.setError("Can't find null");
                 }
                 break;
-            default:
-                return;
         }
 
         this.writeToClient();
@@ -321,7 +280,7 @@ public class ServerSession extends Thread {
         }
     }
 
-    private void tobe(File fileOld) throws IOException {
+    private void tobe(Path fileOld) throws IOException {
         this.writeToClient();
         if (this.presentCommand.response == SFTPResponses.ERR)
             return;
@@ -329,21 +288,17 @@ public class ServerSession extends Thread {
 
         if (this.presentCommand.toString().equals("TOBE") && this.previousCommand.toString().equals("NAME")) {
             if (this.arguments.length >= 1) {
-                File fileNew = this.cwd.resolve(this.arguments[0]).toFile();
-
-                if (fileOld.exists()) {
-                    if (fileOld.renameTo(fileNew)) {
-                        this.arguments[0] = fileOld + " renamed to " + fileNew;
-                    } else {
-                        this.presentCommand.setError("File wasn't renamed because file already exists or " +
-                                "insufficient privileges");
-                    }
+                if (Files.exists(fileOld)) {
+                    Files.move(fileOld, fileOld.resolveSibling(this.arguments[0]));
+                    this.arguments[0] = fileOld + " renamed to " + this.arguments[0];
                 } else {
                     this.presentCommand.setError("File wasn't renamed because original file doesn't exist");
                 }
             } else {
                 this.presentCommand.setError("File wasn't renamed because no file was specified");
             }
+
+            this.writeToClient();
         }
     }
 
@@ -380,5 +335,54 @@ public class ServerSession extends Thread {
     public static String[] getCommandArguments(String command) {
         String[] fullCommand = command.split(" ");
         return Arrays.copyOfRange(fullCommand, 1, fullCommand.length);
+    }
+
+    public void setServerState(ServerStates state) {
+        this.state = state;
+    }
+
+    public ServerStates getServerState() {
+        return this.state;
+    }
+
+    public String[] getAccountData() {
+        return this.accountData;
+    }
+
+    private String[] retrieveUser(String username) {
+        String[] data = new String[]{"null"};
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("database"));
+            String line = reader.readLine();
+            while (line != null) {
+                data = line.split(",");
+                if (data[0].equals(username)) {
+                    return data;
+                } else {
+                    data = new String[]{"null"};
+                }
+                line = reader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        return data;
+    }
+
+    public SFTPCommand getPresentCommand() {
+        return this.presentCommand;
+    }
+
+    public String[] getArguments() {
+        return this.arguments;
+    }
+
+    public void setStreamType(Types type) {
+        this.streamType = type;
+    }
+
+    public Path getCurrentWorkingDirectory() {
+        return this.cwd;
     }
 }

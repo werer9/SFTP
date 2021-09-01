@@ -1,8 +1,8 @@
 package nz.murch.sftp.server;
 
 public class Send extends SFTPCommand {
-    public Send() {
-        super();
+    public Send(ServerSession session) {
+        super(session);
         this.name = "SEND";
         this.success = "";
         this.response = SFTPResponses.SUCCESS;

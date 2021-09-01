@@ -1,15 +1,19 @@
 package nz.murch.sftp.server;
 
+import java.io.IOException;
+
 public abstract class SFTPCommand {
     protected String name;
     protected String error;
     protected String success;
     protected String login;
     protected SFTPResponses response;
+    protected ServerSession session;
 
     protected boolean isError;
 
-    public SFTPCommand() {
+    public SFTPCommand(ServerSession session) {
+        this.session = session;
         this.isError = false;
     }
 
@@ -17,7 +21,7 @@ public abstract class SFTPCommand {
         return this.name;
     }
 
-    public abstract SFTPResponses executeCommand(String[] args);
+    public abstract SFTPResponses executeCommand(String[] args) throws IOException;
 
     public String getResponseData() {
         return switch (this.response) {

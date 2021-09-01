@@ -1,11 +1,9 @@
 package nz.murch.sftp.server;
 
-import java.io.File;
-
 public class ToBe extends SFTPCommand {
 
-    public ToBe() {
-        super();
+    public ToBe(ServerSession session) {
+        super(session);
         this.name = "TOBE";
         this.response = SFTPResponses.SUCCESS;
     }

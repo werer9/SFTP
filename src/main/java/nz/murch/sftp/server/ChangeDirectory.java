@@ -2,8 +2,8 @@ package nz.murch.sftp.server;
 
 public class ChangeDirectory extends SFTPCommand {
 
-    public ChangeDirectory() {
-        super();
+    public ChangeDirectory(ServerSession session) {
+        super(session);
         this.name = "CDIR";
         this.error = SFTPResponses.ERR + "Can't connect to directory because: ";
     }
