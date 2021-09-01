@@ -19,13 +19,13 @@ public class ServerSession extends Thread {
         LOGOUT,
     }
 
-    private enum Types {
+    public enum Types {
         ASCII,
         BINARY,
         CONTINUOUS
     }
 
-    private enum StoreModes {
+    public enum StoreModes {
         NEW,
         OLD,
         APP
@@ -252,16 +252,18 @@ public class ServerSession extends Thread {
             this.writeToClient();
             if (this.presentCommand.response == SFTPResponses.ERR)
                 return;
+            boolean append = false;
             if (Files.exists(file)) {
                 switch (mode) {
                     case NEW:
                         break;
                     case APP:
+                        append = true;
                         break;
                 }
             }
 
-            try (FileOutputStream fos = new FileOutputStream(file.toFile())) {
+            try (FileOutputStream fos = new FileOutputStream(file.toFile(), append)) {
                 byte[] buffer = new byte[4096];
                 int total = 0;
                 int length;

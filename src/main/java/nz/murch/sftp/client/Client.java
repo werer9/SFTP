@@ -1,10 +1,9 @@
 package nz.murch.sftp.client;
 
-import nz.murch.sftp.server.Server;
+import nz.murch.sftp.server.ServerSession;
 
 import java.io.*;
 import java.net.Socket;
-import java.nio.CharBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -65,8 +64,8 @@ public class Client {
         return response;
     }
 
-    public String storeFile(String filename) throws IOException {
-        String response = this.request("STOR NEW " + filename);
+    public String storeFile(String filename, ServerSession.StoreModes mode) throws IOException {
+        String response = this.request("STOR " + mode.toString() + " " + filename);
 
         if (response.charAt(0) != '-') {
             Path file = Paths.get("client/" + filename);
@@ -83,6 +82,7 @@ public class Client {
             }
         }
 
+        response = this.input.readUTF();
         return response;
     }
 
@@ -98,11 +98,13 @@ public class Client {
             System.out.println(client.request("TYPE C"));
             System.out.println(client.request("TYPE B"));
             System.out.println(client.request("KILL fakefile"));
+            System.out.println(client.request("KILL testfolder"));
             System.out.println(client.request("NAME test"));
             System.out.println(client.request("TOBE testfolder"));
             System.out.println(client.request("CDIR testfolder"));
             System.out.println(client.retrieveFile("test.txt"));
-            System.out.println(client.storeFile("test2.txt"));
+            System.out.println(client.storeFile("test2.txt", ServerSession.StoreModes.NEW));
+            System.out.println(client.storeFile("test2.txt", ServerSession.StoreModes.APP));
             System.out.println(client.request("RETR " + "test.txt"));
             System.out.println(client.request("STOP"));
             System.out.println(client.request("CDIR .."));

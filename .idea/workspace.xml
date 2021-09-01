@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="90ab4a62-3abc-498b-a2e9-69e05b20cfff" name="Default Changelist" comment="basic Retrieve function">
-      <change afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Size.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Store.java" afterDir="false" />
+    <list default="true" id="90ab4a62-3abc-498b-a2e9-69e05b20cfff" name="Default Changelist" comment="basic store function">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/client/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/List.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/List.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Password.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Password.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ServerConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ServerConnection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ServerSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ServerSession.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -63,7 +58,7 @@
       <recent name="nz.murch.sftp" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Client">
+  <component name="RunManager" selected="Application.Server">
     <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="nz.murch.sftp.client.Client" />
       <module name="SFTP" />
@@ -152,7 +147,7 @@
       <updated>1629301638070</updated>
       <workItem from="1629301639998" duration="7943000" />
       <workItem from="1629962998187" duration="326000" />
-      <workItem from="1630032511463" duration="34047000" />
+      <workItem from="1630032511463" duration="35677000" />
     </task>
     <task id="LOCAL-00001" summary="create branch">
       <created>1629390714852</created>
@@ -224,7 +219,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630370175082</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="basic store function">
+      <created>1630452992633</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1630452992633</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -283,7 +285,8 @@
     <MESSAGE value="DONE works. Created skeleton code for KILL and NAME" />
     <MESSAGE value="Java NAME and KILL work" />
     <MESSAGE value="basic Retrieve function" />
-    <option name="LAST_COMMIT_MESSAGE" value="basic Retrieve function" />
+    <MESSAGE value="basic store function" />
+    <option name="LAST_COMMIT_MESSAGE" value="basic store function" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -299,8 +302,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ServerSession.java</url>
-          <line>273</line>
-          <option name="timeStamp" value="37" />
+          <line>212</line>
+          <option name="timeStamp" value="43" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
