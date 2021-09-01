@@ -34,16 +34,63 @@ class ClientTest {
     }
 
     @Test
+    @DisplayName("RETR")
     void retrieveFile() {
+        try {
+            this.login();
+            Server.generateTestFile();
+            Files.delete(Paths.get("client/test.txt"));
+            assertTrue(Files.exists(Paths.get("test")));
+            assertEquals("-", this.client.retrieveFile("notreal").substring(0, 1));
+            this.client.retrieveFile("test.txt");
+            assertTrue(Files.exists(Paths.get("client/test.txt")));
+            assertEquals("+",
+                    this.client.kill("test").substring(0, 1));
+            assertFalse(Files.exists(Paths.get("test")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     @DisplayName("STOP")
     void stop() {
+        try {
+            this.login();
+            assertNotEquals("-", this.client.request("RETR test/test.txt").substring(0, 1));
+            assertEquals("+", this.client.stop().substring(0, 1));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
+    @DisplayName("STOR")
     void storeFile() {
+        try {
+            this.login();
+            Server.generateTestFile();
+            Files.delete(Paths.get("client/test.txt"));
+            assertTrue(Files.exists(Paths.get("test")));
+            assertEquals("-", this.client.storeFile("test2.txt",
+                    ServerSession.StoreModes.NEW).substring(0, 1));
+            client.storeFile("test2.txt", ServerSession.StoreModes.NEW);
+            assertTrue(Files.exists(Paths.get("test/test2.txt")));
+            client.storeFile("test2.txt", ServerSession.StoreModes.OLD);
+            assertTrue(Files.exists(Paths.get("test/test2.txt")));
+            assertFalse(Files.exists(Paths.get("test/test2(0).txt")));
+            client.storeFile("test2.txt", ServerSession.StoreModes.APP);
+            assertTrue(Files.exists(Paths.get("test/test2.txt")));
+            assertFalse(Files.exists(Paths.get("test/test2(0).txt")));
+            client.storeFile("test2.txt", ServerSession.StoreModes.NEW);
+            assertTrue(Files.exists(Paths.get("test/test2.txt")));
+            assertTrue(Files.exists(Paths.get("test/test2(0).txt")));
+            assertEquals("+",
+                    this.client.kill("test").substring(0, 1));
+            assertFalse(Files.exists(Paths.get("test")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -142,6 +189,7 @@ class ClientTest {
             assertEquals("+",
                     this.client.kill("new_test").substring(0, 1));
             assertFalse(Files.exists(Paths.get("new_test")));
+            assertFalse(Files.exists(Paths.get("test")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -166,7 +214,24 @@ class ClientTest {
     }
 
     @Test
+    @DisplayName("LIST")
     void list() {
+        try {
+            this.login();
+            Server.generateTestFile();
+            assertTrue(Files.exists(Paths.get("test")));
+            assertEquals("!", this.client.changeDirectory("test").substring(0, 1));
+            assertEquals("+", this.client.list("V .").substring(0, 1));
+            assertEquals("+", this.client.list("F .").substring(0, 1));
+            assertEquals("!", this.client.changeDirectory("..").substring(0, 1));
+            assertEquals("+", this.client.list("V .").substring(0, 1));
+            assertEquals("+", this.client.list("F .").substring(0, 1));
+            assertEquals("+",
+                    this.client.kill("test").substring(0, 1));
+            assertFalse(Files.exists(Paths.get("test")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test

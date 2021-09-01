@@ -43,8 +43,8 @@ public class Client {
 
     public String retrieveFile(String filename) throws IOException {
         String response = this.request("RETR " + filename);
-        int size = Integer.parseInt(response.substring(0, response.length()-1));
         if (response.charAt(0) != '-') {
+            int size = Integer.parseInt(response.substring(0, response.length()-1));
             Path file = Paths.get("client/" + filename);
             this.output.writeUTF("SEND" + "\0");
             this.output.flush();
