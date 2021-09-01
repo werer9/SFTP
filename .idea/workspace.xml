@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="90ab4a62-3abc-498b-a2e9-69e05b20cfff" name="Default Changelist" comment="basic store function">
+    <list default="true" id="90ab4a62-3abc-498b-a2e9-69e05b20cfff" name="Default Changelist" comment="appending mode works in store command">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/client/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/SFTPCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/SFTPCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ServerSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ServerSession.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -26,6 +27,14 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="1wuHd3NXqERylZiEOPphMrVqjYn" />
   <component name="ProjectViewState">
@@ -147,7 +156,7 @@
       <updated>1629301638070</updated>
       <workItem from="1629301639998" duration="7943000" />
       <workItem from="1629962998187" duration="326000" />
-      <workItem from="1630032511463" duration="35677000" />
+      <workItem from="1630032511463" duration="40277000" />
     </task>
     <task id="LOCAL-00001" summary="create branch">
       <created>1629390714852</created>
@@ -226,7 +235,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630452992633</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="appending mode works in store command">
+      <created>1630454627756</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1630454627756</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -286,7 +302,8 @@
     <MESSAGE value="Java NAME and KILL work" />
     <MESSAGE value="basic Retrieve function" />
     <MESSAGE value="basic store function" />
-    <option name="LAST_COMMIT_MESSAGE" value="basic store function" />
+    <MESSAGE value="appending mode works in store command" />
+    <option name="LAST_COMMIT_MESSAGE" value="appending mode works in store command" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -299,11 +316,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/Done.java</url>
           <line>10</line>
           <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/nz/murch/sftp/server/ServerSession.java</url>
-          <line>212</line>
-          <option name="timeStamp" value="43" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

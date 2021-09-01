@@ -2,9 +2,7 @@ package nz.murch.sftp.server;
 
 import java.io.*;
 import java.net.Socket;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.Arrays;
 import java.util.Vector;
 
@@ -252,18 +250,35 @@ public class ServerSession extends Thread {
             this.writeToClient();
             if (this.presentCommand.response == SFTPResponses.ERR)
                 return;
-            boolean append = false;
+            OpenOption[] options = new OpenOption[]{StandardOpenOption.CREATE};
             if (Files.exists(file)) {
                 switch (mode) {
-                    case NEW:
-                        break;
-                    case APP:
-                        append = true;
-                        break;
+                    case NEW -> {
+                        String fileName = file.toString();
+                        String prefix;
+                        String suffix = "";
+                        int indexOfDot;
+                        if (fileName.contains(".")) {
+                            indexOfDot = fileName.lastIndexOf('.');
+                            suffix = fileName.substring(indexOfDot);
+                            prefix = fileName.substring(0, indexOfDot);
+                        } else {
+                            prefix = fileName;
+                        }
+
+                        int i = 0;
+                        do {
+                            file = Paths.get(prefix + "(" + i + ")" + suffix);
+                            i++;
+                        } while (Files.exists(file));
+
+                    }
+                    case APP -> options[0] = StandardOpenOption.APPEND;
+                    case OLD -> options[0] = StandardOpenOption.TRUNCATE_EXISTING;
                 }
             }
 
-            try (FileOutputStream fos = new FileOutputStream(file.toFile(), append)) {
+            try (OutputStream fos = Files.newOutputStream(file, options)) {
                 byte[] buffer = new byte[4096];
                 int total = 0;
                 int length;

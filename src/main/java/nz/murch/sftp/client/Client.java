@@ -10,10 +10,10 @@ import java.nio.file.Paths;
 
 public class Client {
 
-    private DataInputStream input;
-    private DataOutputStream output;
+    private final DataInputStream input;
+    private final DataOutputStream output;
 
-    private Socket clientSocket;
+    private final Socket clientSocket;
 
     public Client() throws IOException {
         this("localhost", 8080);
@@ -104,7 +104,9 @@ public class Client {
             System.out.println(client.request("CDIR testfolder"));
             System.out.println(client.retrieveFile("test.txt"));
             System.out.println(client.storeFile("test2.txt", ServerSession.StoreModes.NEW));
+            System.out.println(client.storeFile("test2.txt", ServerSession.StoreModes.OLD));
             System.out.println(client.storeFile("test2.txt", ServerSession.StoreModes.APP));
+            System.out.println(client.storeFile("test2.txt", ServerSession.StoreModes.NEW));
             System.out.println(client.request("RETR " + "test.txt"));
             System.out.println(client.request("STOP"));
             System.out.println(client.request("CDIR .."));
